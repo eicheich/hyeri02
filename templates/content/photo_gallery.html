@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lee Hyeri - Photo Gallery{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title mb-4"><span class="glow-text">Photo</span> Gallery</h1>
+
+    <!-- Category filter -->
+    <div class="category-pills mb-4">
+        <a href="{% url 'content:photo_gallery' %}" class="category-pill {% if not current_category %}active{% endif %}">All</a>
+        {% for category in categories %}
+        <a href="{% url 'content:photo_gallery' %}?category={{ category.id }}" class="category-pill {% if current_category.id == category.id %}active{% endif %}">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+
+    {% if current_category %}
+    <div class="alert alert-primary">
+        <h5 class="mb-0">Viewing: {{ current_category.name }}</h5>
+        {% if current_category.description %}
+        <p class="mb-0 mt-2">{{ current_category.description }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if page_obj %}
+    <div class="gallery-grid">
+        {% for photo in page_obj %}
+        <div class="gallery-item">
+            <img src="{{ photo.image.url }}" alt="{{ photo.title|default:'Lee Hyeri Photo' }}">
+            <div class="gallery-item-overlay">
+                <h5>{{ photo.title|default:'Untitled Photo' }}</h5>
+                <a href="{% url 'content:photo_detail' photo.id %}" class="btn btn-sm btn-primary">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if current_category %}category={{ current_category.id }}&{% endif %}page=1">&laquo; First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{% if current_category %}category={{ current_category.id }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{% if current_category %}category={{ current_category.id }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{% if current_category %}category={{ current_category.id }}&{% endif %}page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% else %}
+    <div class="text-center py-5">
+        <p>No photos available{% if current_category %} in this category{% endif %}.</p>
+        {% if current_category %}
+        <a href="{% url 'content:photo_gallery' %}" class="btn btn-primary">View All Photos</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Additional CSS for lightbox */
+    .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .lightbox-content {
+        position: relative;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .lightbox-content img {
+        max-width: 100%;
+        max-height: 90vh;
+        border: 3px solid var(--primary-purple);
+        box-shadow: 0 0 30px var(--primary-purple);
+    }
+
+    .close-lightbox {
+        position: absolute;
+        top: -40px;
+        right: -20px;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .close-lightbox:hover {
+        color: var(--primary-purple);
+        text-shadow: 0 0 10px var(--light-purple);
+    }
+</style>
+{% endblock %}

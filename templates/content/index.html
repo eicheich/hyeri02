@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lee Hyeri - Home{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <h1 class="hero-title glow-text">Lee Hyeri</h1>
+        <p class="hero-subtitle">This isn’t just a fanpage. It’s a digital love letter to Hyeri from a totally sane, not-at-all-obsessed fan. Promise.</p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'content:photo_gallery' %}" class="btn btn-primary btn-lg">View Photos</a>
+        </div>
+    </div>
+</div>
+
+<section class="featured-section mb-5">
+    <h2 class="section-title mb-4"><span class="glow-text">Featured</span> Photos</h2>
+
+    {% if random_photos or featured_photos %}
+    <div class="pinterest-collage">
+        {% for photo in random_photos %}
+        <div class="pin-item">
+            <div class="pin-image">
+                <img src="{{ photo.image.url }}" alt="Lee Hyeri Photo">
+                <div class="pin-overlay">
+                    <a href="{% url 'content:photo_detail' photo.id %}" class="btn btn-sm btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for photo in featured_photos %}
+        <div class="pin-item">
+            <div class="pin-image">
+                <img src="{{ photo.image.url }}" alt="{{ photo.title|default:'Lee Hyeri Photo' }}">
+                <div class="pin-overlay">
+                    <h5>{{ photo.title|default:'Untitled Photo' }}</h5>
+                    <a href="{% url 'content:photo_detail' photo.id %}" class="btn btn-sm btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'content:photo_gallery' %}" class="btn btn-outline-light">View All Photos</a>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <p>No featured photos available yet.</p>
+    </div>
+    {% endif %}
+</section>
+
+<section class="about-section">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h2 class="section-title mb-4">About <span class="glow-text">Lee Hyeri</span></h2>
+            <p class="mb-4">Lee Hyeri is a South Korean singer and actress known for her work as a member of the girl group Girl's Day and for her roles in various K-dramas including "Reply 1988" and "My Roommate Is a Gumiho".</p>
+            <a href="{% url 'content:about' %}" class="btn btn-primary">Learn More</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="card about-image-card" style="border-radius: 50%; overflow: hidden; width: 200px; height: 200px; margin: 0 auto;">
+            <img src="{% static 'images/hyeri-profile.jpeg' %}" class="card-img" alt="Lee Hyeri"
+                style="width: 100%; height: 100%; object-fit: cover;"
+                onerror="this.onerror=null; this.src='https://via.placeholder.com/200x200?text=Lee+Hyeri';">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Pinterest-style Collage */
+    .pinterest-collage {
+        column-count: 4;
+        column-gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .pin-item {
+        break-inside: avoid;
+        margin-bottom: 15px;
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .pin-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(157, 78, 221, 0.5);
+    }
+
+    .pin-image {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .pin-image img {
+        width: 100%;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    .pin-item:hover img {
+        transform: scale(1.03);
+    }
+
+    .pin-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(transparent, rgba(16, 0, 43, 0.9));
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        text-align: center;
+    }
+
+    .pin-overlay h5 {
+        color: white;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+    .pin-item:hover .pin-overlay {
+        transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .pinterest-collage {
+            column-count: 3;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .pinterest-collage {
+            column-count: 2;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pinterest-collage {
+            column-count: 1;
+        }
+    }
+
+    /* Photo Collage Styles */
+    .photo-collage {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-auto-rows: 250px;
+        grid-auto-flow: dense;
+        grid-gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .collage-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .collage-item:nth-child(4n+1) {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .collage-item:nth-child(3n+2) {
+        grid-row: span 2;
+    }
+
+    .collage-item:nth-child(5n+3) {
+        grid-column: span 2;
+    }
+
+    .collage-image {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+
+    .collage-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .collage-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .collage-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(transparent, rgba(16, 0, 43, 0.9));
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .collage-item:hover .collage-overlay {
+        transform: translateY(0);
+    }
+
+    .collage-overlay h5 {
+        color: white;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .photo-collage {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-auto-rows: 150px;
+        }
+
+        .collage-overlay h5 {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add hover effects for Pinterest items
+        const pinItems = document.querySelectorAll('.pin-item');
+        if (pinItems.length > 0) {
+            pinItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    const overlay = this.querySelector('.pin-overlay');
+                    if (overlay) {
+                        overlay.style.transform = 'translateY(0)';
+                    }
+                });
+
+                item.addEventListener('mouseleave', function() {
+                    const overlay = this.querySelector('.pin-overlay');
+                    if (overlay) {
+                        overlay.style.transform = 'translateY(100%)';
+                    }
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

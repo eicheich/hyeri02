@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ video.title|default:"Video Detail" }} - Lee Hyeri Fanpage{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'content:index' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'content:video_gallery' %}">Videos</a></li>
+            <li class="breadcrumb-item active">{{ video.title|default:"Untitled Video" }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="video-player-container mb-4">
+                {% if video.video_file %}
+                <div class="video-container">
+                    <video controls>
+                        <source src="{{ video.video_file.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                {% elif video.video_url %}
+                <div class="video-container">
+                    <iframe src="{{ video.video_url|safe }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                {% else %}
+                <div class="no-video-placeholder">
+                    <div class="text-center py-5">
+                        <i class="fas fa-video fa-4x mb-3 text-muted"></i>
+                        <p>No video content available.</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ video.title|default:"Untitled Video" }}</h2>
+
+                    {% if video.upload_date %}
+                    <p class="text-muted mb-3">
+                        <i class="far fa-calendar-alt me-1"></i> {{ video.upload_date|date:"F j, Y" }}
+                    </p>
+                    {% endif %}
+
+                    {% if video.category %}
+                    <div class="mb-3">
+                        <span class="badge bg-primary">{{ video.category.name }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if video.description %}
+                    <h5>Description</h5>
+                    <p>{{ video.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            {% if related_videos %}
+            <div class="related-videos">
+                <h3 class="section-title mb-4">Related <span class="glow-text">Videos</span></h3>
+
+                {% for related_video in related_videos %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-4">
+                            <div class="video-thumbnail-small position-relative">
+                                {% if related_video.thumbnail %}
+                                <img src="{{ related_video.thumbnail.url }}" class="img-fluid rounded-start" alt="{{ related_video.title|default:'Lee Hyeri Video' }}">
+                                {% else %}
+                                <div class="bg-dark d-flex justify-content-center align-items-center h-100">
+                                    <i class="fas fa-video text-light"></i>
+                                </div>
+                                {% endif %}
+                                <div class="play-button-small">
+                                    <i class="fas fa-play-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ related_video.title|default:'Untitled Video' }}</h5>
+                                <a href="{% url 'content:video_detail' related_video.id %}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'content:video_gallery' %}" class="btn btn-outline-light">View All Videos</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .video-player-container {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
+    }
+
+    .no-video-placeholder {
+        background-color: rgba(16, 0, 43, 0.6);
+        border-radius: 15px;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .video-thumbnail-small {
+        height: 100%;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .video-thumbnail-small img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .play-button-small {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 1.5rem;
+        opacity: 0.8;
+        text-shadow: 0 0 10px rgba(157, 78, 221, 0.8);
+        transition: all 0.3s ease;
+        z-index: 2;
+    }
+
+    .card:hover .play-button-small {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+</style>
+{% endblock %}

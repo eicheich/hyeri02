@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ photo.title|default:"Photo Detail" }} - Lee Hyeri Fanpage{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'content:index' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'content:photo_gallery' %}">Photos</a></li>
+            <li class="breadcrumb-item active">{{ photo.title|default:"Untitled Photo" }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="photo-detail-container">
+                <img src="{{ photo.image.url }}" alt="{{ photo.title|default:'Lee Hyeri Photo' }}" class="img-fluid rounded shadow">
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ photo.title|default:"Untitled Photo" }}</h2>
+
+                    {% if photo.upload_date %}
+                    <p class="text-muted mb-3">
+                        <i class="far fa-calendar-alt me-1"></i> {{ photo.upload_date|date:"F j, Y" }}
+                    </p>
+                    {% endif %}
+
+                    {% if photo.category %}
+                    <div class="mb-3">
+                        <span class="badge bg-primary">{{ photo.category.name }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if photo.description %}
+                    <h5>Description</h5>
+                    <p>{{ photo.description }}</p>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <a href="javascript:history.back()" class="btn btn-secondary me-2">
+                            <i class="fas fa-arrow-left me-1"></i> Back
+                        </a>
+                        <a href="#" class="btn btn-primary" id="fullscreen-btn">
+                            <i class="fas fa-expand me-1"></i> Fullscreen
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if related_photos %}
+    <div class="related-photos mt-5">
+        <h3 class="section-title mb-4">Related <span class="glow-text">Photos</span></h3>
+
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+            {% for related_photo in related_photos %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ related_photo.image.url }}" class="card-img-top" alt="{{ related_photo.title|default:'Lee Hyeri Photo' }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related_photo.title|default:'Untitled Photo' }}</h5>
+                        <a href="{% url 'content:photo_detail' related_photo.id %}" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .photo-detail-container {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
+        margin-bottom: 2rem;
+    }
+
+    .photo-detail-container img {
+        width: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    /* Fullscreen mode */
+    .fullscreen-photo {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: zoom-out;
+    }
+
+    .fullscreen-photo img {
+        max-width: 90%;
+        max-height: 90%;
+        box-shadow: 0 0 50px rgba(157, 78, 221, 0.8);
+        border: 3px solid var(--primary-purple);
+    }
+
+    .close-fullscreen {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 30px;
+        cursor: pointer;
+        z-index: 10000;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .close-fullscreen:hover {
+        background-color: var(--primary-purple);
+        transform: scale(1.1);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const photoImg = document.querySelector('.photo-detail-container img');
+
+        if (fullscreenBtn && photoImg) {
+            fullscreenBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const fullscreenElement = document.createElement('div');
+                fullscreenElement.classList.add('fullscreen-photo');
+
+                const closeButton = document.createElement('div');
+                closeButton.classList.add('close-fullscreen');
+                closeButton.innerHTML = '<i class="fas fa-times"></i>';
+
+                const imgClone = document.createElement('img');
+                imgClone.src = photoImg.src;
+                imgClone.alt = photoImg.alt;
+
+                fullscreenElement.appendChild(imgClone);
+                fullscreenElement.appendChild(closeButton);
+                document.body.appendChild(fullscreenElement);
+
+                // Prevent scrolling
+                document.body.style.overflow = 'hidden';
+
+                // Handle close
+                const closeFullscreen = function() {
+                    document.body.removeChild(fullscreenElement);
+                    document.body.style.overflow = 'auto';
+                };
+
+                closeButton.addEventListener('click', closeFullscreen);
+                fullscreenElement.addEventListener('click', function(e) {
+                    if (e.target === fullscreenElement) {
+                        closeFullscreen();
+                    }
+                });
+
+                // Also close on ESC key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        closeFullscreen();
+                    }
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

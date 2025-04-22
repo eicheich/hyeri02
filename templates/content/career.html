@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lee Hyeri - Career{% endblock %}
+
+{% block extra_css %}
+<style>
+    .career-section {
+        margin-bottom: 3rem;
+    }
+    .career-item {
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+    .career-item:hover {
+        transform: translateY(-5px);
+    }
+    .year-badge {
+        background-color: var(--dark-purple);
+        color: #fff;
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        display: inline-block;
+        margin-bottom: 0.5rem;
+    }
+    .career-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--light-purple);
+    }
+    .special-card {
+        background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(224, 170, 255, 0.2));
+        border: 2px solid var(--primary-purple);
+        position: relative;
+        overflow: hidden;
+    }
+    .special-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 10px,
+            rgba(224, 170, 255, 0.1) 10px,
+            rgba(224, 170, 255, 0.1) 20px
+        );
+        z-index: 0;
+        animation: shine 20s linear infinite;
+    }
+    .special-card .card-body {
+        position: relative;
+        z-index: 1;
+    }
+    .love-icon {
+        color: #ff6b6b;
+        margin: 0 0.3rem;
+        animation: heartbeat 1.5s infinite;
+    }
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        10% { transform: scale(1.2); }
+        20% { transform: scale(1); }
+        30% { transform: scale(1.2); }
+        40% { transform: scale(1); }
+        100% { transform: scale(1); }
+    }
+    @keyframes shine {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(-50%) rotate(360deg); }
+    }
+    .victory-item {
+        border-left: 3px solid var(--primary-purple);
+        padding-left: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="text-center mb-5">Lee Hyeri's <span class="glow-text">Career</span></h1>
+
+    {% if friendly_rivalry %}
+    <div class="career-section">
+        <h2 class="section-title mb-4">Special Highlight <i class="fas fa-star text-warning"></i></h2>
+        <div class="card special-card mb-4">
+            <div class="row g-0">
+                {% if friendly_rivalry.image %}
+                <div class="col-md-5">
+                    <img src="{{ friendly_rivalry.image.url }}" class="img-fluid rounded" alt="Friendly Rivalry">
+                </div>
+                {% endif %}
+                <div class="col-md-{% if friendly_rivalry.image %}7{% else %}12{% endif %}">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">
+                            <i class="fas fa-heart love-icon"></i>
+                            {{ friendly_rivalry.title }}
+                            <i class="fas fa-heart love-icon"></i>
+                        </h3>
+                        <div class="year-badge">{{ friendly_rivalry.year }}</div>
+                        <p class="card-text">{{ friendly_rivalry.description|linebreaks }}</p>
+                        <div class="text-center mt-3">
+                            <p class="lead">
+                                <i class="fas fa-heart love-icon"></i>
+                                A special romantic journey
+                                <i class="fas fa-heart love-icon"></i>
+                            </p>
+                            <p class="mb-0">Experience the heartwarming chemistry and unforgettable moments in this beloved drama.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="career-section">
+        <h2 class="section-title mb-4">TV Dramas</h2>
+        <div class="row">
+            {% for drama in dramas %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card career-item h-100 {% if 'Friendly Rivalry' in drama.title %}special-card{% endif %}">
+                    {% if drama.image %}
+                    <img src="{{ drama.image.url }}" class="card-img-top" alt="{{ drama.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="year-badge">{{ drama.year }}</div>
+                        <h5 class="career-title">{{ drama.title }}</h5>
+                        <p class="card-text">{{ drama.description|truncatewords:30 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col">
+                <p class="text-center">No drama entries yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="career-section">
+        <h2 class="section-title mb-4">Films</h2>
+        <div class="row">
+            {% for film in films %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card career-item h-100">
+                    {% if film.image %}
+                    <img src="{{ film.image.url }}" class="card-img-top" alt="{{ film.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="year-badge">{{ film.year }}</div>
+                        <h5 class="career-title">{{ film.title }}</h5>
+                        <p class="card-text">{{ film.description|truncatewords:30 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col">
+                <p class="text-center">No film entries yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="career-section">
+        <h2 class="section-title mb-4">Music Career</h2>
+        <div class="row">
+            {% for music_entry in music %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card career-item h-100">
+                    {% if music_entry.image %}
+                    <img src="{{ music_entry.image.url }}" class="card-img-top" alt="{{ music_entry.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="year-badge">{{ music_entry.year }}</div>
+                        <h5 class="career-title">{{ music_entry.title }}</h5>
+                        <p class="card-text">{{ music_entry.description|truncatewords:30 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col">
+                <p class="text-center">No music entries yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="career-section">
+        <h2 class="section-title mb-4">Variety Shows</h2>
+        <div class="row">
+            {% for show in variety_shows %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card career-item h-100">
+                    {% if show.image %}
+                    <img src="{{ show.image.url }}" class="card-img-top" alt="{{ show.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="year-badge">{{ show.year }}</div>
+                        <h5 class="career-title">{{ show.title }}</h5>
+                        <p class="card-text">{{ show.description|truncatewords:30 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col">
+                <p class="text-center">No variety show entries yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="career-section">
+        <h2 class="section-title mb-4">Awards and Victories</h2>
+        <div class="timeline">
+            {% for victory in victories %}
+            <div class="card mb-3">
+                <div class="card-body victory-item">
+                    <div class="year-badge">{{ victory.year }}</div>
+                    <h5 class="career-title">{{ victory.title }}</h5>
+                    <p class="card-text">{{ victory.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="card mb-3">
+                <div class="card-body text-center">
+                    <p>No awards entries yet.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

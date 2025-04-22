@@ -1,0 +1,459 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Lee Hyeri{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="about-header text-center mb-5">
+        <h1 class="section-title"><span class="glow-text">About</span> Lee Hyeri</h1>
+        <div class="divider mx-auto my-4"></div>
+    </div>
+
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+            <div class="about-image" style="max-width: 350px; margin: 0 auto;">
+            <img src="{% static 'images/hyeri-profile.jpeg' %}" alt="Lee Hyeri" class="img-fluid rounded shadow"
+                 onerror="this.onerror=null; this.src='https://via.placeholder.com/350x450?text=Lee+Hyeri';">
+            <div class="image-glow"></div>
+            </div>
+        </div>
+        <div class="col-lg-6 order-lg-1">
+            <div class="about-content">
+                <h2 class="mb-4">Biography</h2>
+                <p>Lee Hyeri (Korean: 이혜리) is a South Korean singer and actress born on June 9, 1994. She is best known as a member of the girl group Girl's Day and for her roles in various television dramas.</p>
+                <p>She gained widespread recognition for her role as Sung Deok-sun in the hit nostalgic drama "Reply 1988" (2015-2016), which became one of the highest-rated dramas in Korean cable television history.</p>
+                <p>Following her success in "Reply 1988," Hyeri has established herself as a talented actress, appearing in dramas such as "My Roommate is a Gumiho" (2021), "Moonshine" (2021-2022), and "May I Help You" (2022).</p>
+                <div class="bio-stats mt-4">
+                    <div class="row">
+                        <div class="col-6 col-md-4 mb-3">
+                            <div class="stat-item">
+                                <h5>Full Name</h5>
+                                <p>Lee Hyeri</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3">
+                            <div class="stat-item">
+                                <h5>Birth Date</h5>
+                                <p>June 9, 1994</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3">
+                            <div class="stat-item">
+                                <h5>Birthplace</h5>
+                                <p>Gwangju, South Korea</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3">
+                            <div class="stat-item">
+                                <h5>Height</h5>
+                                <p>167 cm</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3">
+                            <div class="stat-item">
+                                <h5>Group</h5>
+                                <p>Girl's Day</p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4 mb-3">
+                            <div class="stat-item">
+                                <h5>Agency</h5>
+                                <p>Sublime Artist Agency</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timeline-section mb-5">
+        <h2 class="text-center mb-4">Career <span class="glow-text">Timeline</span></h2>
+        <div class="divider mx-auto my-4"></div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2010</h3>
+                    <p>Joined Girl's Day, replacing two members who had left the group.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2014</h3>
+                    <p>Girl's Day released their hit song "Something" which helped establish them as one of the top girl groups.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2015</h3>
+                    <p>Cast in the hit drama "Reply 1988" as Sung Deok-sun, which skyrocketed her popularity.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2017</h3>
+                    <p>Starred in the historical drama "Two Cops" alongside Jo Jung-suk.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2021</h3>
+                    <p>Led the fantasy romance drama "My Roommate Is a Gumiho" with Jang Ki-yong.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2022</h3>
+                    <p>Starred in the drama "May I Help You" alongside Lee Jun-young.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>2024</h3>
+                    <p>Featured in the film "Victory".</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content friendly-rivalry-entry">
+                    <h3>2025</h3>
+                    <p><i class="fas fa-heart special-heart"></i> Starred in the hit drama "Friendly Rivalry" in a leading role <i class="fas fa-heart special-heart"></i></p>
+                    <div class="special-note">
+                        <span class="sparkles">✨</span> My Favorite Series <span class="sparkles">✨</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-image {
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
+    }
+
+    .about-image img {
+        width: 100%;
+        display: block;
+    }
+
+    .image-glow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-shadow: inset 0 0 50px var(--primary-purple);
+        border-radius: 15px;
+        pointer-events: none;
+    }
+
+    .divider {
+        height: 3px;
+        width: 70px;
+        background: var(--light-purple);
+        box-shadow: 0 0 10px var(--primary-purple);
+    }
+
+    /* Pinterest-style grid */
+    .pinterest-grid {
+        column-count: 3;
+        column-gap: 15px;
+        margin: 0 auto;
+        max-width: 1200px;
+    }
+
+    .pin-item {
+        break-inside: avoid;
+        margin-bottom: 15px;
+        border-radius: 15px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .pin-item img {
+        width: 100%;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    .pin-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(157, 78, 221, 0.5);
+    }
+
+    .pin-item:hover img {
+        transform: scale(1.03);
+    }
+
+    @media (max-width: 768px) {
+        .pinterest-grid {
+            column-count: 2;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .pinterest-grid {
+            column-count: 1;
+        }
+    }
+
+    .bio-stats .stat-item {
+        background: rgba(16, 0, 43, 0.4);
+        padding: 15px;
+        border-radius: 10px;
+        height: 100%;
+        border: 1px solid var(--dark-purple);
+        transition: all 0.3s ease;
+    }
+
+    .bio-stats .stat-item:hover {
+        border-color: var(--primary-purple);
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
+    }
+
+    .bio-stats .stat-item h5 {
+        color: var(--light-purple);
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .bio-stats .stat-item p {
+        margin-bottom: 0;
+        font-weight: 600;
+    }
+
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        padding-top: 20px;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        background: var(--primary-purple);
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 10px var(--primary-purple);
+    }
+
+    .timeline-item {
+        padding: 20px 0;
+        position: relative;
+        width: 50%;
+        left: 0;
+    }
+
+    .timeline-item:nth-child(even) {
+        left: 50%;
+    }
+
+    .timeline-content {
+        background: rgba(16, 0, 43, 0.6);
+        padding: 20px;
+        border-radius: 10px;
+        position: relative;
+        margin-right: 30px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
+        border: 1px solid var(--dark-purple);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 30px;
+        margin-right: 0;
+    }
+
+    .timeline-content::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        right: -15px;
+        width: 15px;
+        height: 15px;
+        background: var(--primary-purple);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--light-purple);
+    }
+
+    .timeline-item:nth-child(even) .timeline-content::before {
+        left: -15px;
+        right: auto;
+    }
+
+    .timeline-content:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary-purple);
+        box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
+    }
+
+    .timeline-content h3 {
+        color: var(--light-purple);
+        margin-bottom: 10px;
+    }
+
+    /* Special styles for Friendly Rivalry */
+    .friendly-rivalry-entry {
+        background: linear-gradient(135deg, rgba(16, 0, 43, 0.8), rgba(90, 24, 154, 0.8));
+        border: 2px solid var(--light-purple);
+        box-shadow: 0 0 20px rgba(199, 125, 255, 0.5);
+    }
+
+    .friendly-rivalry-entry::before {
+        background: var(--light-purple);
+        box-shadow: 0 0 15px var(--glow-purple);
+    }
+
+    .friendly-rivalry-entry:hover {
+        box-shadow: 0 0 30px rgba(224, 170, 255, 0.7);
+        transform: translateY(-8px);
+    }
+
+    .special-heart {
+        color: #ff6b6b;
+        margin: 0 0.3rem;
+        animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        10% { transform: scale(1.2); }
+        20% { transform: scale(1); }
+        30% { transform: scale(1.2); }
+        40% { transform: scale(1); }
+        100% { transform: scale(1); }
+    }
+
+    .special-note {
+        margin-top: 10px;
+        text-align: center;
+        padding: 5px;
+        background: rgba(157, 78, 221, 0.3);
+        border-radius: 5px;
+        font-weight: bold;
+        color: #e0aaff;
+    }
+
+    .sparkles {
+        display: inline-block;
+        animation: sparkle 1.5s infinite alternate;
+        color: #ffe066;
+    }
+
+    @keyframes sparkle {
+        0% { opacity: 0.5; text-shadow: none; }
+        100% { opacity: 1; text-shadow: 0 0 10px #ffe066, 0 0 20px #ffe066; }
+    }
+
+    /* Special card for Friendly Rivalry */
+    .friendly-rivalry-card {
+        background: linear-gradient(135deg, rgba(16, 0, 43, 0.8), rgba(90, 24, 154, 0.8));
+        border: 2px solid var(--light-purple);
+        box-shadow: 0 0 25px rgba(157, 78, 221, 0.6);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .friendly-rivalry-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 0 35px rgba(224, 170, 255, 0.8);
+    }
+
+    .favorite-badge {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 5px 10px;
+        background: rgba(157, 78, 221, 0.4);
+        border-radius: 20px;
+        color: #e0aaff;
+        font-weight: bold;
+        animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+        0% { box-shadow: 0 0 5px rgba(224, 170, 255, 0.5); }
+        100% { box-shadow: 0 0 15px rgba(224, 170, 255, 0.8); }
+    }
+
+    .corner-sparkle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--light-purple);
+        border-radius: 50%;
+        animation: pulse 3s infinite;
+    }
+
+    .top-left {
+        top: 10px;
+        left: 10px;
+        animation-delay: 0s;
+    }
+
+    .top-right {
+        top: 10px;
+        right: 10px;
+        animation-delay: 0.75s;
+    }
+
+    .bottom-left {
+        bottom: 10px;
+        left: 10px;
+        animation-delay: 1.5s;
+    }
+
+    .bottom-right {
+        bottom: 10px;
+        right: 10px;
+        animation-delay: 2.25s;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 0.7; box-shadow: 0 0 0 0 rgba(224, 170, 255, 0.7); }
+        50% { transform: scale(1.5); opacity: 1; box-shadow: 0 0 0 10px rgba(224, 170, 255, 0); }
+        100% { transform: scale(1); opacity: 0.7; box-shadow: 0 0 0 0 rgba(224, 170, 255, 0); }
+    }
+
+    @media (max-width: 768px) {
+        .timeline::before {
+            left: 30px;
+        }
+
+        .timeline-item {
+            width: 100%;
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 0;
+        }
+
+        .timeline-content {
+            margin-left: 60px;
+            margin-right: 0;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 60px;
+        }
+
+        .timeline-content::before {
+            left: -15px;
+            right: auto;
+        }
+    }
+</style>
+{% endblock %}
