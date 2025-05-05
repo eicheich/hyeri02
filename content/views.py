@@ -5,26 +5,20 @@ import random
 
 def index(request):
     """Home page with featured content"""
+    # Get all photos to display on the landing page
+    all_photos = Photo.objects.all().order_by('-upload_date')
+
+    # No need for random selection if we want to show all photos
+    # But ensure we have photos before proceeding
+    if all_photos.exists():
+        random_photos = all_photos
+    else:
+        random_photos = []
+
+    # Still keeping featured content for other parts of the page
     featured_photos = Photo.objects.filter(featured=True).order_by('-upload_date')[:6]
     featured_videos = Video.objects.filter(featured=True).order_by('-upload_date')[:3]
     categories = ContentCategory.objects.all()
-
-    # Get multiple random photos for the carousel instead of just one
-    random_photos = []
-    photos_queryset = Photo.objects.all()
-    photos_count = photos_queryset.count()
-
-    if photos_count > 0:
-        # Get 5 random photos or all available photos if less than 5
-        num_photos = min(5, photos_count)
-        photo_ids = list(photos_queryset.values_list('id', flat=True))
-
-        # Shuffle the IDs and select the first few
-        random.shuffle(photo_ids)
-        selected_ids = photo_ids[:num_photos]
-
-        # Fetch the selected photos
-        random_photos = Photo.objects.filter(id__in=selected_ids)
 
     context = {
         'featured_photos': featured_photos,
